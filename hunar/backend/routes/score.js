@@ -35,15 +35,6 @@ router.post('/', (req, res) => {
     });
 });
 
-// router.put('/:score_id', (req, res) => {
-//     const { score_id } = req.params;
-//     db.query('UPDATE villages SET village_name = ? WHERE score_id = ?', [village_name, score_id], (err, results) => {
-//         if (err) {
-//             return res.status(500).send(err);
-//         }
-//         res.json({ message: 'Village updated successfully.' });
-//     });
-// });
 
 
 router.delete('/:id', (req, res) => {
