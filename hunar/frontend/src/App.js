@@ -1,10 +1,11 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
+import Home from "./pages/Graph";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import StudentData from "./pages/StudentData";
 import EditStudentData from "./pages/EditStudentData/EditStudentData";
+import Dashboard from "./pages/Dashboard";
 function App() {
   return (
     <div>
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/student/:id" element={<StudentData/>} />
         <Route path="/student/:id/edit" element={<EditStudentData />} />
       </Routes>
