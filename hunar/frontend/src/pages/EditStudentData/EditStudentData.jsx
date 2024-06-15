@@ -76,7 +76,7 @@ const EditStudentData = () => {
     } catch (error) {
       console.error('There was an error submitting the form:', error);
     }
-
+  }
 
   const handleNameChange = (e) => {
     setName(e.target.value);

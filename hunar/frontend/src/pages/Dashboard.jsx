@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-import Graph from "./Graph"
+import Graph from "./Home"
 import Sidebar from "./SideBar"
 import './Dashboard.css'
 
