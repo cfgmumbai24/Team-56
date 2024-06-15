@@ -3,6 +3,8 @@ import { useState } from "react";
 import Layout from "../Layout";
 import "./LoginPage.css"; // Import your CSS file for styling
 import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
+
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,8 +24,14 @@ export default function LoginPage() {
 
       if (response.status === 200) {
         console.log("Logged in:", data);
+        console.log("data :", data);
         // Store the token in local storage
+        const decodedToken = jwtDecode(data.token);
+        localStorage.setItem("user", JSON.stringify(decodedToken));
+
         localStorage.setItem("token", data.token);
+        const secretKey = "IWANTTOWIN";
+
         // Redirect to a protected route or dashboard
         window.location.href = "/dashboard"; // Adjust the path as needed
       } else {

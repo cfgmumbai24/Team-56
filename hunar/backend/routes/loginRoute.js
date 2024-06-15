@@ -4,11 +4,11 @@ const db = require("../db");
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "IWANTTOWIN";
 // login route
-router.get("/", (req, res) => {
+router.post("/", (req, res) => {
   const { username, password } = req.body;
 
-  const query = "SELECT * FROM teachers WHERE name = ? AND password = ?";
-  db.query(query, [username, password], (err, results) => {
+  const query = "SELECT * FROM user_login WHERE username = ?";
+  db.query(query, [username], (err, results) => {
     if (err) {
       console.error("Error executing query:", err);
       return res
@@ -19,13 +19,11 @@ router.get("/", (req, res) => {
     if (results.length === 0) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
-
+    console.log(results);
     const user = results[0];
-    const token = jwt.sign(
-      { id: user.id, username: user.username },
-      SECRET_KEY,
-      { expiresIn: "1h" }
-    );
+    const token = jwt.sign({ id: user.id, username }, SECRET_KEY, {
+      expiresIn: "1h",
+    });
     res.json({ message: "Login successful", token });
   });
 });
