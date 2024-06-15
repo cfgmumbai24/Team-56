@@ -1,10 +1,10 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Layout from './Layout';
-import Home from './pages/Home';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
-
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./pages/Home";
+import LoginPage from "./pages/LoginPage";
+import RegisterPage from "./pages/RegisterPage";
+import StudentData from "./pages/StudentData";
+import EditStudentData from "./pages/EditStudentData/EditStudentData";
 function App() {
   return (
     <div>
@@ -13,9 +13,11 @@ function App() {
         <Route index element={<Home/>}/>
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/student/:id" element={<StudentData/>} />
+        <Route path="/student/:id/edit" element={<EditStudentData />} />
       </Routes>
     </div>
   );
-};
+}
 
 export default App;
