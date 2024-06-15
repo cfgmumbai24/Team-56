@@ -7,14 +7,14 @@ import RadioButtonGroup from "./Radiobutton";
 import "./EditStudentData.css";
 
 const questions = {
-  Feelings: [
+  'Feelings': [
     "I feel happy when I come to school.",
     "I feel safe in my classroom.",
     "I feel sad when my friends are not nice to me.",
     "I feel good about myself.",
     "I feel worried sometimes.",
   ],
-  Relationships: [
+  'Relationships': [
     "I have friends to play with at school.",
     "I like to share with my classmates.",
     "I like to help others.",
@@ -76,10 +76,11 @@ const EditStudentData = () => {
     } catch (error) {
       console.error("There was an error submitting the form:", error);
     }
+  }
 
-    const handleNameChange = (e) => {
-      setName(e.target.value);
-    };
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
 
     const handleStandardChange = (e) => {
       setStandard(e.target.value);
@@ -190,6 +191,5 @@ const EditStudentData = () => {
       </>
     );
   };
-};
 
 export default EditStudentData;

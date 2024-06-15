@@ -6,7 +6,6 @@ import RegisterPage from "./pages/RegisterPage";
 import StudentData from "./pages/StudentData";
 import EditStudentData from "./pages/EditStudentData/EditStudentData";
 import Dashboard from "./pages/Dashboard";
-import Layout from "./Layout";
 function App() {
   return (
     <div>
@@ -16,7 +15,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/student/:id" element={<StudentData />} />
+        <Route path="/student/:id" element={<StudentData/>} />
         <Route path="/student/:id/edit" element={<EditStudentData />} />
       </Routes>
     </div>

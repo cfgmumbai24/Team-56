@@ -56,15 +56,6 @@ const SignUp = ({ onSignUp }) => {
           style={styles.input}
           required
         />
-        <label style={styles.label} htmlFor="halfDoctorId">Half Doctor ID:</label>
-        <input
-          type="text"
-          id="halfDoctorId"
-          value={halfDoctorId}
-          onChange={(e) => setHalfDoctorId(e.target.value)}
-          style={styles.input}
-          required
-        />
         <label style={styles.label} htmlFor="email">Email:</label>
         <input
           type="email"

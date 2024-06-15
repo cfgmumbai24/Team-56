@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
 });
 
 // Get a specific mitra record by goat_id
-router.get('/:goat_id', (req, res) => {
-    const { goat_id } = req.params;
-    db.query('SELECT * FROM mitra WHERE goat_id = ?', [goat_id], (err, results) => {
+router.get('/:goat_id/:data_date', (req, res) => {
+    const { goat_id, data_date } = req.params;
+    db.query('SELECT * FROM mitra WHERE goat_id = ? and data_date=?', [goat_id, data_date], (err, results) => {
         if (err) {
             return res.status(500).send(err);
         }
