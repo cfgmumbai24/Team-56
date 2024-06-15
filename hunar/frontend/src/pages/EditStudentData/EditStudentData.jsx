@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
+
 import { data } from "./data"; // Assuming you will use a database or API instead
 import RadioButtonGroup from "./Radiobutton";
 import "./EditStudentData.css";
@@ -29,11 +30,14 @@ const questions = {
   ]
 };
 
+
 const standards = [1,2,3,4,5];
+
 
 const EditStudentData = () => {
   const { id } = useParams();
   const [name, setName] = useState('');
+
   const [standard, setStandard] = useState(1);
   const [literacyTestScore, setLiteracyTestScore] = useState('');
   const [numericalAbilityTestScore, setNumericalAbilityTestScore] = useState('');
@@ -41,13 +45,13 @@ const EditStudentData = () => {
   const [responses, setResponses] = useState({});
   
 
+
   useEffect(() => {
     const user = data.find((user) => user.id === parseInt(id));
     if (user) {
       setName(user.name);
     }
   }, [id]);
-
   const handleResponseChange = (question, value) => {
     setResponses((prevResponses) => ({
       ...prevResponses,
@@ -72,7 +76,7 @@ const EditStudentData = () => {
     } catch (error) {
       console.error('There was an error submitting the form:', error);
     }
-  };
+
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -119,6 +123,7 @@ const EditStudentData = () => {
           </select>
         </div>
         <div className="form-group">
+
           <label htmlFor="dateofTest" className="form-label">Date of Test</label>
           <input
             type="date"
@@ -129,6 +134,7 @@ const EditStudentData = () => {
           />
         </div>
         <div className="form-group">
+
           <label htmlFor="literacyTestScore" className="form-label">Literacy Test Score</label>
           <input
             type="number"
@@ -152,12 +158,14 @@ const EditStudentData = () => {
           <div key={index}>
             <h3>{category}</h3>
             {questions[category].map((question, qIndex) => (
+
               <RadioButtonGroup
                 key={qIndex}
                 question={question}
                 name={`q${index}-${qIndex}`}
                 onResponseChange={handleResponseChange}
               />
+
             ))}
           </div>
         ))}
@@ -165,7 +173,9 @@ const EditStudentData = () => {
           Submit
         </button>
       </form>
+
       </>
+
   );
 };
 
