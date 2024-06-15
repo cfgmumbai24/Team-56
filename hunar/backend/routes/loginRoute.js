@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = "IWANTTOWIN";
 // login route
 router.get("/", (req, res) => {
   const { username, password } = req.body;

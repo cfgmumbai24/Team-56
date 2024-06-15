@@ -1,13 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
+const jwt = require("jsonwebtoken");
+const SECRET_KEY = "IWANTTOWIN";
 
 // login route
-router.get("/", (req, res) => {
-  const { username, password, grade } = req.body;
+router.post("/", (req, res) => {
+  const { username, password } = req.body;
 
   // Check if the user already exists
-  const query = "SELECT * FROM teachers WHERE name = ?";
+  const query = "SELECT * FROM user_login WHERE username = ?";
   db.query(query, [username], (err, results) => {
     if (err) {
       console.error("Error executing query:", err);
@@ -22,8 +24,8 @@ router.get("/", (req, res) => {
 
     // Insert the new user into the database
     const insertQuery =
-      "INSERT INTO teachers (name, password, class) VALUES (?, ?, ?)";
-    db.query(insertQuery, [username, password, grade], (err, results) => {
+      "INSERT INTO user_login (username, password) VALUES (?,?)";
+    db.query(insertQuery, [username, password], (err, results) => {
       if (err) {
         console.error("Error inserting user:", err);
         return res
