@@ -28,6 +28,16 @@ router.get('/goat-details/:goat_id', (req, res) => {
     });
 });
 
+router.get('/goat-address-details/:goat_id', (req, res) => {
+    const { goat_id } = req.params;
+    db.query('SELECT house_address FROM goats WHERE goat_id = ?', [goat_id], (err, results) => {
+        if (err) {
+            return res.status(500).send(err);
+        }
+        res.json(results);
+    });
+});
+
 // Create a new goat
 // Create a new goat
 router.post('/', (req, res) => {
