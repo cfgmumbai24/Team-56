@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import axios from 'axios';
+
 import { data } from "./data"; // Assuming you will use a database or API instead
 import RadioButtonGroup from "./Radiobutton";
 import "./EditStudentData.css";
@@ -28,15 +30,21 @@ const questions = {
   ]
 };
 
-const standards = ["Grade 1", "Grade 2", "Grade 3", "Grade 4", "Grade 5"];
+
+const standards = [1,2,3,4,5];
+
 
 const EditStudentData = () => {
   const { id } = useParams();
   const [name, setName] = useState('');
-  const [standard, setStandard] = useState('');
+
+  const [standard, setStandard] = useState(1);
   const [literacyTestScore, setLiteracyTestScore] = useState('');
   const [numericalAbilityTestScore, setNumericalAbilityTestScore] = useState('');
-  const [users, setUsers] = useState(data);
+  const [dateofTest,setdateofTest] = useState('')
+  const [responses, setResponses] = useState({});
+  
+
 
   useEffect(() => {
     const user = data.find((user) => user.id === parseInt(id));
@@ -44,11 +52,31 @@ const EditStudentData = () => {
       setName(user.name);
     }
   }, [id]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Add your submit logic here
+  const handleResponseChange = (question, value) => {
+    setResponses((prevResponses) => ({
+      ...prevResponses,
+      [question]: value
+    }));
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const final_response = JSON.stringify(responses, null, 2)
+    const formData = {
+      name,
+      standard,
+      literacyTestScore,
+      numericalAbilityTestScore,
+      final_response
+    };
+
+    try {
+      const response = await axios.post('https://localhost:5000/api/students', formData);
+      console.log('Server Response:', response.data);
+    } catch (error) {
+      console.error('There was an error submitting the form:', error);
+    }
+
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -64,6 +92,10 @@ const EditStudentData = () => {
 
   const handleNumericalAbilityTestScoreChange = (e) => {
     setNumericalAbilityTestScore(e.target.value);
+  };
+
+  const handleDateofTestChange = (e) => {
+    setdateofTest(e.target.value);
   };
 
   return (
@@ -91,6 +123,18 @@ const EditStudentData = () => {
           </select>
         </div>
         <div className="form-group">
+
+          <label htmlFor="dateofTest" className="form-label">Date of Test</label>
+          <input
+            type="date"
+            id="numericalAbilityTestScore"
+            value={dateofTest}
+            onChange={handleDateofTestChange}
+            className="form-input"
+          />
+        </div>
+        <div className="form-group">
+
           <label htmlFor="literacyTestScore" className="form-label">Literacy Test Score</label>
           <input
             type="number"
@@ -114,7 +158,14 @@ const EditStudentData = () => {
           <div key={index}>
             <h3>{category}</h3>
             {questions[category].map((question, qIndex) => (
-              <RadioButtonGroup key={qIndex} question={question} name={`q${index}-${qIndex}`} />
+
+              <RadioButtonGroup
+                key={qIndex}
+                question={question}
+                name={`q${index}-${qIndex}`}
+                onResponseChange={handleResponseChange}
+              />
+
             ))}
           </div>
         ))}
@@ -122,7 +173,9 @@ const EditStudentData = () => {
           Submit
         </button>
       </form>
-    </>
+
+      </>
+
   );
 };
 
