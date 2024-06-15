@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 
 const Dashboard = () => {
-  return (
-    <div>Dashboard</div>
-  )
-}
+  const [username, setUsername] = useState("");
 
-export default Dashboard
+  useEffect(() => {
+    // Fetch data from the API here
+    const user = localStorage.getItem("user");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      setUsername(parsedUser.username);
+    }
+  }, []);
+
+  return <div>Dashboard of {username}</div>;
+};
+
+export default Dashboard;
