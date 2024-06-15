@@ -11,10 +11,24 @@ router.get("/", (req, res) => {
   });
 });
 
+// router.get("/:id", (req, res) => {
+//   const { id } = req.params;
+//   db.query(
+//     "select * from teacher_data where teacher_id=?",
+//     [id],
+//     (err, results) => {
+//       if (err) {
+//         return res.status(500).send(err);
+//       }
+//       res.json(results[0]);
+//     }
+//   );
+// });
+
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   db.query(
-    "select * from teacher_data where teacher_id=?",
+    "select * from teacher_data where username=?",
     [id],
     (err, results) => {
       if (err) {
@@ -30,21 +44,19 @@ router.get("/:id", (req, res) => {
 // teacher_id, password, name, class
 
 router.post("/", (req, res) => {
-  const { teacher_id, username, teacher_name, address, age, standard } =
-    req.body;
-  if (!teacher_id || !password || !name || !teacher_class) {
+  const { teacherId, username, teacherName, address, age, standard } = req.body;
+  if (!teacherId || !teacherName) {
     return res.status(400).json({
       error:
         "All fields (teacher_id,username,teacher_name,address,age, standard) are required",
     });
   }
-
-  // Insert into the database
   const query =
     "INSERT INTO teacher_data (teacher_id,username,teacher_name,address,age, standard) VALUES (?, ?, ?, ?,?,? )";
+
   db.query(
     query,
-    [teacher_id, username, teacher_name, address, age, standard],
+    [teacherId, username, teacherName, address, age, standard],
     (err, results) => {
       if (err) {
         console.error("Database error:", err);
@@ -53,13 +65,8 @@ router.post("/", (req, res) => {
           .json({ error: "Failed to insert teacher into database" });
       }
       res.status(201).json({
-        id: results.insertId,
-        teacher_id,
-        username,
-        teacher_name,
-        address,
-        age,
-        standard,
+        teacherId,
+        message: "Teacher inserted successfully",
       });
     }
   );
@@ -75,6 +82,20 @@ router.delete("/:id", (req, res) => {
         return res.status(500).send(err);
       }
       res.json({ message: "Teacher deleted successfully." });
+    }
+  );
+});
+
+router.get("/:teacherId/underStudents", (req, res) => {
+  const { teacherId } = req.params;
+  db.query(
+    "SELECT student.student_id ,student.student_name, student.roll_no, student.standard FROM student INNER JOIN scores ON student.student_id = scores.student_id WHERE scores.teacher_id = ?",
+    [teacherId],
+    (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json(results);
     }
   );
 });

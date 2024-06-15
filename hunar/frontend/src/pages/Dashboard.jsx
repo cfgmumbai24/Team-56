@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import { useState } from "react"
+
+import Graph from "./Home"
+import Sidebar from "./SideBar"
+import './Dashboard.css'
 
 const Dashboard = () => {
-  const [username, setUsername] = useState("");
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(false)
 
-  useEffect(() => {
-    // Fetch data from the API here
-    const user = localStorage.getItem("user");
-    if (user) {
-      const parsedUser = JSON.parse(user);
-      setUsername(parsedUser.username);
-    }
-  }, []);
-
-  return <div>Dashboard of {username}</div>;
-};
-
-export default Dashboard;
+  const OpenSidebar = () => {
+    setOpenSidebarToggle(!openSidebarToggle)
+  }
+  return (
+    <div className='grid-container'>
+      <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar}/>
+      <Graph />
+    </div>
+  )
+}
+export default Dashboard

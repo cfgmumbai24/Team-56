@@ -1,19 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import './Home.css';
+import React from 'react'
 
-export default function Home() {
+const Home = () => {
   return (
-    <div className="home-container">
-      
-      <div className="button-container">
-        <Link to="/login">
-          <button className="home-button">Login as a Teacher</button>
-        </Link>
-        <Link to="/register">
-          <button className="home-button">Register as a New Teacher</button>
-        </Link>
-      </div>
-    </div>
-  );
+    <div>Home</div>
+  )
 }
+
+export default Home
