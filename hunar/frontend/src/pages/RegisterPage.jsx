@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import Layout from '../Layout';
+import './RegisterPage.css'; // Import your CSS file for styling
 export default function RegisterPage() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -12,35 +13,41 @@ export default function RegisterPage() {
     }
 
     return (
-        <form onSubmit={register}>
-            <div>
-                <label>Username:</label>
-                <input
-                    type="text"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label>Password:</label>
-                <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
-            </div>
-            <div>
-                <label>Grade:</label>
-                <input
-                    type="text"
-                    value={grade}
-                    onChange={(e) => setGrade(e.target.value)}
-                    required
-                />
-            </div>
-            <button type="submit">Register</button>
-        </form>
+        <>
+        <Layout/>
+        <div className="register-container">
+            <form className="register-form" onSubmit={register}>
+                <h2 className="register_heading">Register</h2>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        placeholder="Username"
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="Password"
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <input
+                        type="text"
+                        value={grade}
+                        onChange={(e) => setGrade(e.target.value)}
+                        placeholder="Grade"
+                        required
+                    />
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+        </>
     );
 }
