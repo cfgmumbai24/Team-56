@@ -13,9 +13,9 @@ router.get('/', (req, res) => {
 });
 
 // Get a specific mitra record by goat_id
-router.get('/:goat_id/:data_date', (req, res) => {
-    const { goat_id, data_date } = req.params;
-    db.query('SELECT * FROM mitra WHERE goat_id = ? and data_date=?', [goat_id, data_date], (err, results) => {
+router.get('/:goat_id', (req, res) => {
+    const { goat_id } = req.params;
+    db.query('SELECT * FROM mitra WHERE goat_id = ?', [goat_id], (err, results) => {
         if (err) {
             return res.status(500).send(err);
         }
@@ -25,13 +25,13 @@ router.get('/:goat_id/:data_date', (req, res) => {
 
 // Create a new mitra record
 router.post('/', (req, res) => {
-    const { goat_id, house_no, house_address, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename } = req.body;
-    const query = 'INSERT INTO mitra (goat_id, house_no, house_address, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    db.query(query, [goat_id, house_no, house_address, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename], (err, results) => {
+    const { goat_id, house_no, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename } = req.body;
+    const query = 'INSERT INTO mitra (goat_id, house_no, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+    db.query(query, [goat_id, house_no, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename], (err, results) => {
         if (err) {
             return res.status(500).send(err);
         }
-        res.json({ goat_id, house_no, house_address, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename });
+        res.json({ goat_id, house_no, weight, height, Fkids, Mkids, vacA, vacB, vacC, disease, data_date, villagename });
     });
 });
 

@@ -1,68 +1,150 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const AddGoatDetails = () => {
-  const [goatId, setGoatId] = useState('');
+  const [goat_id, setGoatId] = useState('');
+  const [house_no, setHouseno] = useState('');
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
-  const [femaleKids, setFemaleKids] = useState('');
-  const [maleKids, setMaleKids] = useState('');
-  const [vaccinations, setVaccinations] = useState([]);
+  const [Fkids, setFemaleKids] = useState('');
+  const [Mkids, setMaleKids] = useState('');
+  const [vacA, setVacA] = useState(false);
+  const [vacB, setVacB] = useState(false);
+  const [vacC, setVacC] = useState(false);
   const [disease, setDisease] = useState(false);
+  const [villagename, setVillagename] = useState('');
   const [remarks, setRemarks] = useState('');
   const [showRemarks, setShowRemarks] = useState(false);
-  const [address, setAddress] = useState('');
+  const [dataDate, setDataDate] = useState('');
 
-  // Simulate fetching address from database based on goatId
+  // Set the current date when the component mounts
   useEffect(() => {
-    if (goatId) {
-      fetchAddressFromDatabase(goatId);
-    }
-  }, [goatId]);
+    const today = new Date();
+    const formattedDate = today.toISOString().split('T')[0]; // yyyy-mm-dd
+    setDataDate(formattedDate);
+  }, []);
 
-  // Simulated function to fetch address based on goatId
-  const fetchAddressFromDatabase = async (id) => {
-    try {
-      // Replace with actual API call to fetch address based on goatId
-      const response = await fetch("http://localhost:5000/api/goats/goat-address-details/${goatId}");
-      if (response.ok) {
-        const data = await response.json();
-        setAddress(data.address); // Assuming API returns { address: "..." }
-      } else {
-        setAddress('Address not found');
-      }
-    } catch (error) {
-      console.error('Error fetching address:', error);
-      setAddress('Failed to fetch address');
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Simulate saving to database or backend
-    setTimeout(() => {
-      setRemarks(`Data added successfully for Goat ID: ${goatId} this month.`);
+    const data = {
+      goat_id,
+      house_no,
+      weight,
+      height,
+      Fkids,
+      Mkids,
+      vacA,
+      vacB,
+      vacC,
+      disease,
+      villagename,
+      data_date: dataDate, // Include the date in the data object
+    };
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/mitra', data);
+      if (response.status === 200) {
+        setRemarks(`Data added successfully for Goat ID: ${goat_id} this month.`);
+        setShowRemarks(true);
+        setGoatId('');
+        setHouseno('');
+        setWeight('');
+        setHeight('');
+        setFemaleKids('');
+        setMaleKids('');
+        setVacA(false);
+        setVacB(false);
+        setVacC(false);
+        setDisease(false);
+        setVillagename('');
+        setTimeout(() => {
+          setShowRemarks(false);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error('Error adding goat details:', error);
+      setRemarks('Failed to add goat details. Please try again.');
       setShowRemarks(true);
-      // Clear form fields
-      setGoatId('');
-      setWeight('');
-      setHeight('');
-      setFemaleKids('');
-      setMaleKids('');
-      setVaccinations([]);
-      setDisease(false);
       setTimeout(() => {
         setShowRemarks(false);
-      }, 3000); // Hide the remarks after 3 seconds
-    }, 1000);
+      }, 3000);
+    }
   };
 
-  const handleCheckboxChange = (vaccine) => {
-    if (vaccinations.includes(vaccine)) {
-      setVaccinations(vaccinations.filter((v) => v !== vaccine));
-    } else {
-      setVaccinations([...vaccinations, vaccine]);
-    }
+  const styles = {
+    container: {
+      width: '100%',
+      maxWidth: '600px',
+      margin: '50px auto',
+      padding: '20px',
+      backgroundColor: 'white',
+      borderRadius: '8px',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+      textAlign: 'center',
+      fontFamily: 'Arial, sans-serif',
+      color: '#333',
+      boxSizing: 'border-box',
+    },
+    heading: {
+      marginBottom: '20px',
+      color: '#800000',
+    },
+    formContainer: {
+      display: 'flex',
+      justifyContent: 'center',
+    },
+    form: {
+      width: '100%',
+      maxWidth: '400px',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    label: {
+      marginBottom: '5px',
+      textAlign: 'left',
+      width: '100%',
+      maxWidth: '300px',
+    },
+    input: {
+      width: '100%',
+      maxWidth: '300px',
+      padding: '8px',
+      marginBottom: '15px',
+      border: '1px solid #ccc',
+      borderRadius: '4px',
+      boxSizing: 'border-box',
+    },
+    button: {
+      width: '100%',
+      maxWidth: '300px',
+      padding: '10px',
+      backgroundColor: '#7B1F32',
+      color: 'white',
+      border: 'none',
+      borderRadius: '4px',
+      cursor: 'pointer',
+      marginTop: '20px',
+    },
+    checkboxGroup: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'flex-start',
+      marginBottom: '15px',
+    },
+    remarksContainer: {
+      position: 'fixed',
+      top: '20px',
+      right: '20px',
+      backgroundColor: '#ffcccc',
+      padding: '10px',
+      borderRadius: '4px',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    },
+    remarks: {
+      color: '#800000',
+    },
   };
 
   return (
@@ -70,123 +152,120 @@ const AddGoatDetails = () => {
       <h2 style={styles.heading}>Add Monthly Goat Details</h2>
       <div style={styles.formContainer}>
         <form onSubmit={handleSubmit} style={styles.form}>
-          <label style={styles.label} htmlFor="goatId">
-            Goat ID:
-          </label>
+          <label htmlFor="goat_id" style={styles.label}>Goat ID:</label>
           <input
             type="text"
-            id="goatId"
-            value={goatId}
+            id="goat_id"
+            value={goat_id}
             onChange={(e) => setGoatId(e.target.value)}
-            className="input"
             required
+            style={styles.input}
           />
-          <div style={styles.address}>
-            <label>Address:</label>
-            <input
-              type="text"
-              value={address}
-              readOnly
-              className="input"
-            />
-          </div>
-          <label style={styles.label} htmlFor="weight">
-            Weight (kg):
-          </label>
+          <label htmlFor="house_no" style={styles.label}>House No.:</label>
+          <input
+            type="text"
+            id="house_no"
+            value={house_no}
+            onChange={(e) => setHouseno(e.target.value)}
+            required
+            style={styles.input}
+          />
+          <label htmlFor="weight" style={styles.label}>Weight (kg):</label>
           <input
             type="text"
             id="weight"
             value={weight}
             onChange={(e) => setWeight(e.target.value)}
-            className="input"
             required
+            style={styles.input}
           />
-          <label style={styles.label} htmlFor="height">
-            Height (m):
-          </label>
+          <label htmlFor="height" style={styles.label}>Height (m):</label>
           <input
             type="text"
             id="height"
             value={height}
             onChange={(e) => setHeight(e.target.value)}
-            className="input"
             required
+            style={styles.input}
           />
-          <label style={styles.label} htmlFor="femaleKids">
-            Female Kids:
-          </label>
+          <label htmlFor="Fkids" style={styles.label}>Female Kids:</label>
           <input
             type="text"
-            id="femaleKids"
-            value={femaleKids}
+            id="Fkids"
+            value={Fkids}
             onChange={(e) => setFemaleKids(e.target.value)}
-            className="input"
             required
+            style={styles.input}
           />
-          <label style={styles.label} htmlFor="maleKids">
-            Male Kids:
-          </label>
+          <label htmlFor="Mkids" style={styles.label}>Male Kids:</label>
           <input
             type="text"
-            id="maleKids"
-            value={maleKids}
+            id="Mkids"
+            value={Mkids}
             onChange={(e) => setMaleKids(e.target.value)}
-            className="input"
             required
+            style={styles.input}
           />
           <label style={styles.label}>Vaccinations:</label>
           <div style={styles.checkboxGroup}>
-            <label style={styles.checkboxLabel}>
+            <label>
               <input
                 type="checkbox"
-                checked={vaccinations.includes('Vaccination A')}
-                onChange={() => handleCheckboxChange('Vaccination A')}
-                className="checkbox"
+                checked={vacA}
+                onChange={() => setVacA(!vacA)}
               />
-              <span className="checkboxText">Vaccination A</span>
+              Vaccination A
             </label>
-            <label style={styles.checkboxLabel}>
+            <label>
               <input
                 type="checkbox"
-                checked={vaccinations.includes('Vaccination B')}
-                onChange={() => handleCheckboxChange('Vaccination B')}
-                className="checkbox"
+                checked={vacB}
+                onChange={() => setVacB(!vacB)}
               />
-              <span className="checkboxText">Vaccination B</span>
+              Vaccination B
             </label>
-            <label style={styles.checkboxLabel}>
+            <label>
               <input
                 type="checkbox"
-                checked={vaccinations.includes('Vaccination C')}
-                onChange={() => handleCheckboxChange('Vaccination C')}
-                className="checkbox"
+                checked={vacC}
+                onChange={() => setVacC(!vacC)}
               />
-              <span className="checkboxText">Vaccination C</span>
+              Vaccination C
             </label>
           </div>
-          <div style={styles.checkboxContainer}>
-            <label style={styles.label}>Disease:</label>
-            <div style={styles.checkboxInput}>
-              <input
-                type="checkbox"
-                id="disease"
-                checked={disease}
-                onChange={(e) => setDisease(e.target.checked)}
-              />
-              <label htmlFor="disease" style={styles.checkboxLabel}>
-                Yes
-              </label>
-            </div>
-          </div>
-          <button type="submit" style={styles.button}>
-            Submit
-          </button>
+          <label htmlFor="disease" style={styles.label}>Disease:</label>
+          <input
+            type="checkbox"
+            id="disease"
+            checked={disease}
+            onChange={(e) => setDisease(e.target.checked)}
+            style={styles.input}
+          />
+          <label htmlFor="villagename" style={styles.label}>Village Name:</label>
+          <input
+            type="text"
+            id="villagename"
+            value={villagename}
+            onChange={(e) => setVillagename(e.target.value)}
+            required
+            style={styles.input}
+          />
+          {/* Date input */}
+          <label htmlFor="data_date" style={styles.label}>Date:</label>
+          <input
+            type="text"
+            id="data_date"
+            value={dataDate}
+            readOnly // Read-only to prevent user input
+            style={styles.input}
+          />
+          <button type="submit" style={styles.button}>Submit</button>
         </form>
       </div>
       {showRemarks && (
         <div style={styles.remarksContainer}>
           <div style={styles.remarks}>
-            <p style={styles.remarksText}>{remarks}</p>
+            <p>{remarks}</p>
           </div>
         </div>
       )}
@@ -194,112 +273,4 @@ const AddGoatDetails = () => {
   );
 };
 
-const styles = {
-  container: {
-    width: '100%',
-    maxWidth: '600px',
-    margin: '50px auto',
-    padding: '20px',
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-    textAlign: 'center',
-    fontFamily: 'Arial, sans-serif',
-    color: '#333',
-    boxSizing: 'border-box',
-  },
-  heading: {
-    marginBottom: '20px',
-    color: '#800000',
-  },
-  formContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-  },
-  form: {
-    width: '100%',
-    maxWidth: '400px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  label: {
-    marginBottom: '5px',
-    textAlign: 'left',
-    width: '100%',
-    maxWidth: '300px',
-  },
-  input: {
-    width: '100%',
-    maxWidth: '300px',
-    padding: '8px',
-    marginBottom: '15px',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    boxSizing: 'border-box',
-  },
-  button: {
-    width: '100%',
-    maxWidth: '300px',
-    padding: '10px',
-    backgroundColor: '#7B1F32',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
-    marginTop: '20px',
-  },
-  checkboxGroup: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    marginBottom: '15px',
-  },
-  checkboxContainer: {
-    display: 'flex',
-    alignItems: 'center',
-    marginBottom: '15px',
-  },
-  checkboxInput: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-  checkboxLabel: {
-    marginLeft: '5px',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-  },
-  checkbox: {
-    marginRight: '5px',
-    cursor: 'pointer',
-  },
-  checkboxText: {
-    marginLeft: '5px',
-    userSelect: 'none',
-  },
-  address: {
-    marginBottom: '15px',
-  },
-  remarksContainer: {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: '9999',
-  },
-  remarks: {
-    padding: '10px',
-    backgroundColor: 'white',
-    borderRadius: '8px',
-    boxShadow: '0 0 10px rgba(0, 0, 0, 0,1)',
-    textAlign: 'center',
-  },
-  remarksText: {
-    margin: 0,
-    color: '#333',
-  },
-};
-
 export default AddGoatDetails;
-

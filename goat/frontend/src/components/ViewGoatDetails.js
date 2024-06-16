@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const ViewGoatDetails = () => {
     const [goatId, setGoatId] = useState('');
-    const [date, setDate] = useState('');
     const [goatDetails, setGoatDetails] = useState(null); // State to hold fetched goat details
+    const [classificationReport, setClassificationReport] = useState(''); // State to hold classification report
     const [error, setError] = useState(null); // State to hold error message
 
     const handleSearch = async (e) => {
-        e.preventDefault();
+        if (e) e.preventDefault(); // Prevent form submission reload
 
         try {
-            const response = await axios.get("http://localhost:5000/api/mitra/${goatId}/${date}");
-            const fetchedGoatDetails = response.data; // Assuming response.data is an object with goat details
+            const response = await axios.get(`http://localhost:5000/api/mitra/${goatId}`);
+            const fetchedGoatDetails = response.data;
             setGoatDetails(fetchedGoatDetails);
             setError(null); // Clear any previous errors
         } catch (error) {
@@ -21,6 +21,38 @@ const ViewGoatDetails = () => {
             setGoatDetails(null); // Clear existing goat details on error
         }
     };
+
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.get(`http://localhost:5000/api/goats/classify/${goatId}`);
+            if (response.status === 200) {
+                const { classification } = response.data;
+
+                // Extract health status from the classification
+                const healthStatus = classification.health_status;
+
+                // Display health status in a formatted way
+                const report = `
+                    ## Veterinary Report - Goat ID: ${goatId}
+                    **Date:** ${new Date().toLocaleDateString()}
+                    **Examined by:** Your Name
+                    **Patient:** Goat
+                    **Health Status:** ${healthStatus}
+                `;
+
+                setClassificationReport(report); // Set classification report to state
+            }
+        } catch (error) {
+            console.error('Error classifying goat:', error);
+            setError('Failed to classify goat. Please try again.'); // Handle error state
+        }
+    };
+
+    useEffect(() => {
+        if (goatId) {
+            handleSearch();
+        }
+    }, [goatId]);
 
     return (
         <div style={styles.container}>
@@ -35,28 +67,24 @@ const ViewGoatDetails = () => {
                     style={styles.input}
                     required
                 />
-                <label style={styles.label} htmlFor="date">Date:</label>
-                <input
-                    type="date"
-                    id="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    style={styles.input}
-                    required
-                />
                 <button type="submit" style={styles.button}>Search</button>
+                <button type="button" style={styles.button} onClick={handleSubmit}>Check Health Status</button>
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}
+            {classificationReport && (
+                <div style={styles.classificationContainer}>
+                    <h3 style={styles.detailsHeading}>Classification Report</h3>
+                    <div style={styles.reportContainer}>
+                        <pre style={styles.healthStatus}>{classificationReport}</pre>
+                    </div>
+                </div>
+            )}
             {goatDetails && (
                 <div style={styles.detailsContainer}>
-                    <h3 style={styles.detailsHeading}>Details for Goat ID: {goatDetails.goatId}</h3>
-                    <p><strong>Date:</strong> {goatDetails.date}</p>
-                    <p><strong>Weight:</strong> {goatDetails.weight} kg</p>
-                    <p><strong>Height:</strong> {goatDetails.height} cm</p>
-                    <p><strong>Female Kids:</strong> {goatDetails.femaleKids}</p>
-                    <p><strong>Male Kids:</strong> {goatDetails.maleKids}</p>
-                    <p><strong>Vaccinations:</strong> {goatDetails.vaccinations.join(', ')}</p>
-                    <p><strong>Disease:</strong> {goatDetails.disease ? 'Yes' : 'No'}</p>
+                    <h3 style={styles.detailsHeading}>Details for Goat ID: {goatId}</h3>
+                    {Object.entries(goatDetails).map(([key, value]) => (
+                        <p key={key}><strong>{key}:</strong> {value}</p>
+                    ))}
                 </div>
             )}
         </div>
@@ -109,6 +137,7 @@ const styles = {
         border: 'none',
         borderRadius: '4px',
         cursor: 'pointer',
+        marginBottom: '10px', // Added margin bottom for better spacing
     },
     detailsContainer: {
         marginTop: '20px',
@@ -117,9 +146,34 @@ const styles = {
         borderRadius: '4px',
         backgroundColor: '#f0f0f0',
     },
+    classificationContainer: {
+        marginTop: '20px',
+        padding: '10px',
+        border: '1px solid #ccc',
+        borderRadius: '4px',
+        backgroundColor: '#f0f0f0',
+        textAlign: 'left', // Adjusted text alignment for classification report
+    },
     detailsHeading: {
         color: '#7B1F32',
         marginBottom: '10px',
+    },
+    reportContainer: {
+        padding: '10px',
+        backgroundColor: '#fff',
+        borderRadius: '8px',
+        border: '1px solid #ccc',
+        marginTop: '10px',
+        textAlign: 'left',
+        maxWidth: '80%',
+        margin: 'auto',
+    },
+    healthStatus: {
+        whiteSpace: 'pre-wrap', // Preserve line breaks and spacing
+        fontFamily: 'Arial, sans-serif', // Use appropriate font for readability
+        fontSize: '16px', // Adjust font size as needed
+        lineHeight: '1.6', // Increase line height for readability
+        color: '#333', // Text color
     },
 };
 
