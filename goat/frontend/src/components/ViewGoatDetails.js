@@ -4,7 +4,7 @@ import axios from 'axios';
 const ViewGoatDetails = () => {
     const [goatId, setGoatId] = useState('');
     const [goatDetails, setGoatDetails] = useState(null); // State to hold fetched goat details
-    const [classificationReport, setClassificationReport] = useState(''); // State to hold classification report
+    const [classification, setClassification] = useState(null); // State to hold classification result
     const [error, setError] = useState(null); // State to hold error message
 
     const handleSearch = async (e) => {
@@ -27,20 +27,7 @@ const ViewGoatDetails = () => {
             const response = await axios.get(`http://localhost:5000/api/goats/classify/${goatId}`);
             if (response.status === 200) {
                 const { classification } = response.data;
-
-                // Extract health status from the classification
-                const healthStatus = classification.health_status;
-
-                // Display health status in a formatted way
-                const report = `
-                    ## Veterinary Report - Goat ID: ${goatId}
-                    **Date:** ${new Date().toLocaleDateString()}
-                    **Examined by:** Your Name
-                    **Patient:** Goat
-                    **Health Status:** ${healthStatus}
-                `;
-
-                setClassificationReport(report); // Set classification report to state
+                setClassification(classification); // Set classification result to state
             }
         } catch (error) {
             console.error('Error classifying goat:', error);
@@ -71,19 +58,29 @@ const ViewGoatDetails = () => {
                 <button type="button" style={styles.button} onClick={handleSubmit}>Check Health Status</button>
             </form>
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            {classificationReport && (
-                <div style={styles.classificationContainer}>
-                    <h3 style={styles.detailsHeading}>Classification Report</h3>
-                    <div style={styles.reportContainer}>
-                        <pre style={styles.healthStatus}>{classificationReport}</pre>
-                    </div>
+            {classification && (
+                <div style={styles.detailsContainer}>
+                    <h3 style={styles.detailsHeading}>Classification Result</h3>
+                    <p><strong>Goat ID:</strong> {goatId}</p>
+                    <p><strong>Classification:</strong> {classification}</p>
                 </div>
             )}
             {goatDetails && (
                 <div style={styles.detailsContainer}>
                     <h3 style={styles.detailsHeading}>Details for Goat ID: {goatId}</h3>
-                    {Object.entries(goatDetails).map(([key, value]) => (
-                        <p key={key}><strong>{key}:</strong> {value}</p>
+                    {goatDetails.map((goat, index) => (
+                        <div key={index} style={{ marginBottom: '20px' }}>
+                            <p><strong>Date:</strong> {new Date(goat.data_date).toLocaleDateString()}</p>
+                            <p><strong>Weight:</strong> {goat.weight} kg</p>
+                            <p><strong>Height:</strong> {goat.height} m</p>
+                            <p><strong>Female Kids:</strong> {goat.Fkids}</p>
+                            <p><strong>Male Kids:</strong> {goat.Mkids}</p>
+                            <p><strong>vacA:</strong> {goat.vacA ? 'Yes' : 'No'}</p>
+                            <p><strong>vacB:</strong> {goat.vacB ? 'Yes' : 'No'}</p>
+                            <p><strong>vacC:</strong> {goat.vacC ? 'Yes' : 'No'}</p>
+                            <p><strong>Disease:</strong> {goat.disease ? 'Yes' : 'No'}</p>
+                            <p><strong>Village Name:</strong> {goat.villagename}</p>
+                        </div>
                     ))}
                 </div>
             )}
@@ -146,34 +143,9 @@ const styles = {
         borderRadius: '4px',
         backgroundColor: '#f0f0f0',
     },
-    classificationContainer: {
-        marginTop: '20px',
-        padding: '10px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        backgroundColor: '#f0f0f0',
-        textAlign: 'left', // Adjusted text alignment for classification report
-    },
     detailsHeading: {
         color: '#7B1F32',
         marginBottom: '10px',
-    },
-    reportContainer: {
-        padding: '10px',
-        backgroundColor: '#fff',
-        borderRadius: '8px',
-        border: '1px solid #ccc',
-        marginTop: '10px',
-        textAlign: 'left',
-        maxWidth: '80%',
-        margin: 'auto',
-    },
-    healthStatus: {
-        whiteSpace: 'pre-wrap', // Preserve line breaks and spacing
-        fontFamily: 'Arial, sans-serif', // Use appropriate font for readability
-        fontSize: '16px', // Adjust font size as needed
-        lineHeight: '1.6', // Increase line height for readability
-        color: '#333', // Text color
     },
 };
 
