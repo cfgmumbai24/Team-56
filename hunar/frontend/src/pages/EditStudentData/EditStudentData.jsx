@@ -97,6 +97,7 @@ const EditStudentData = () => {
       );
       console.log("Form Data:", formData);
       console.log("Server Response:", response.data);
+      alert("Data submitted successfully");
     } catch (error) {
       console.error("There was an error submitting the form:", error);
     }
