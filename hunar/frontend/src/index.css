@@ -2,3 +2,7 @@
   margin: 0;
   padding: 0;
 }
+.insert_btn button {
+  width: 100px;
+  height: 100px;
+}

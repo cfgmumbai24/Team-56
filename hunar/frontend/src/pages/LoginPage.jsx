@@ -53,7 +53,7 @@ export default function LoginPage() {
         <form
           className="login-form"
           onSubmit={login}
-          style={{ border: "1px solid black" }}
+          style={{ border: "1px solid grey" }}
         >
           <div className="form-group">
             <h2 className="login_heading">Login</h2>

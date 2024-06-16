@@ -120,96 +120,123 @@ const EditStudentData = () => {
 
   return (
     <>
-      <form className="form" onSubmit={handleSubmit}>
-        <h2>Student Data</h2>
-        <div className="form-group">
-          <label htmlFor="name" className="form-label">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={studentData ? studentData.name : ""}
-            disabled={studentData ? true : false}
-            onChange={handleNameChange}
-            className="form-input"
-            readOnly
-          />
+      <div>
+        <div
+          style={{
+            fontSize: "1.5em",
+            fontWeight: "bold",
+            textDecoration: "none",
+            backgroundColor: "#0277BD",
+            padding: "1em",
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "2em",
+          }}
+        >
+          Student Update{" "}
         </div>
-        <div className="form-group">
-          <label htmlFor="standard" className="form-label">
-            Standard
-          </label>
-          <select
-            value={studentData ? studentData.standard : ""}
-            disabled={studentData ? true : false}
-            onChange={handleStandardChange}
-            className="form-select"
-            required
-          >
-            <option value="" disabled>
-              Select a Standard
-            </option>
-            {standards.map((std, index) => (
-              <option key={index} value={std}>
-                {std}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="form-group">
-          <label htmlFor="dateofTest" className="form-label">
-            Date of Test
-          </label>
-          <input
-            type="date"
-            id="numericalAbilityTestScore"
-            value={dateofTest}
-            onChange={handleDateofTestChange}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="literacyTestScore" className="form-label">
-            Literacy Test Score
-          </label>
-          <input
-            type="number"
-            id="literacyTestScore"
-            value={literacyTestScore}
-            onChange={handleLiteracyTestScoreChange}
-            className="form-input"
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="numericalAbilityTestScore" className="form-label">
-            Numerical Ability Test Score
-          </label>
-          <input
-            type="number"
-            id="numericalAbilityTestScore"
-            value={numericalAbilityTestScore}
-            onChange={handleNumericalAbilityTestScoreChange}
-            className="form-input"
-          />
-        </div>
-        {Object.keys(questions).map((category, index) => (
-          <div key={index}>
-            <h3>{category}</h3>
-            {questions[category].map((question, qIndex) => (
-              <RadioButtonGroup
-                key={qIndex}
-                question={question}
-                name={`q${index}-${qIndex}`}
-                onResponseChange={handleResponseChange}
-              />
-            ))}
+        <form className="form" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="name" className="form-label">
+              Name
+            </label>
+            <input
+              type="text"
+              id="name"
+              value={studentData ? studentData.name : ""}
+              disabled={studentData ? true : false}
+              onChange={handleNameChange}
+              className="form-input"
+              readOnly
+            />
           </div>
-        ))}
-        <button type="submit" className="form-button">
-          Submit
-        </button>
-      </form>
+          <div className="form-group">
+            <label htmlFor="standard" className="form-label">
+              Standard
+            </label>
+            <select
+              value={studentData ? studentData.standard : ""}
+              disabled={studentData ? true : false}
+              onChange={handleStandardChange}
+              className="form-select"
+              required
+            >
+              <option value="" disabled>
+                Select a Standard
+              </option>
+              {standards.map((std, index) => (
+                <option key={index} value={std}>
+                  {std}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="dateofTest" className="form-label">
+              Date of Test
+            </label>
+            <input
+              type="date"
+              id="numericalAbilityTestScore"
+              value={dateofTest}
+              onChange={handleDateofTestChange}
+              className="form-input"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="literacyTestScore" className="form-label">
+              Literacy Test Score
+            </label>
+            <input
+              type="number"
+              id="literacyTestScore"
+              value={literacyTestScore}
+              onChange={handleLiteracyTestScoreChange}
+              className="form-input"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="numericalAbilityTestScore" className="form-label">
+              Numerical Ability Test Score
+            </label>
+            <input
+              type="number"
+              id="numericalAbilityTestScore"
+              value={numericalAbilityTestScore}
+              onChange={handleNumericalAbilityTestScoreChange}
+              className="form-input"
+            />
+          </div>
+          {Object.keys(questions).map((category, index) => (
+            <div key={index}>
+              <h3>{category}</h3>
+              {questions[category].map((question, qIndex) => (
+                <RadioButtonGroup
+                  key={qIndex}
+                  question={question}
+                  name={`q${index}-${qIndex}`}
+                  onResponseChange={handleResponseChange}
+                />
+              ))}
+            </div>
+          ))}
+          <button
+            type="submit"
+            className="form-button"
+            style={{
+              color: "white",
+              backgroundColor: "#0277BD",
+              maxWidth: "50dvw",
+              marginLeft: "25%",
+              marginTop: "3%",
+            }}
+          >
+            Submit
+          </button>
+        </form>
+      </div>
     </>
   );
 };

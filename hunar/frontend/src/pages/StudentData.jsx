@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom"; // Import useParams hook
 import Layout from "../Layout";
+import { Link } from "react-router-dom";
 import ChartPage from "../components/ChartPage";
 const StudentData = () => {
   const [studentData, setStudentData] = useState(null); // Initialize with null to handle potential API delays
@@ -62,7 +63,6 @@ const StudentData = () => {
   // http://localhost:5000/api/score/1
   return (
     <div>
-      <Layout />
       {error && <p>{error}</p>}
       {studentData ? (
         studentData.length > 0 ? ( // Check if there are students in the array
@@ -71,7 +71,12 @@ const StudentData = () => {
               style={{
                 fontSize: "2em",
                 fontWeight: "bold",
-                textDecoration: "underline",
+                color: "white",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: "#0277BD",
+                padding: "0.5em",
               }}
             >
               Student Details
@@ -80,23 +85,37 @@ const StudentData = () => {
               (
                 student // Iterate over the student objects
               ) => (
-                <>
-                  <div key={student.student_id}>
-                    {" "}
-                    {/* Use student_id for unique keys */}
-                    <div style={{ fontSize: "1em", fontWeight: "bold" }}>
-                      Student ID: {student.student_id}
+                <div style={{ padding: "1em" }}>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <div key={student.student_id}>
+                      {" "}
+                      {/* Use student_id for unique keys */}
+                      <div style={{ fontSize: "1em", fontWeight: "bold" }}>
+                        Student ID: {student.student_id}
+                      </div>
+                      <div style={{ fontSize: "1em", fontWeight: "bold" }}>
+                        Student Name: {student.student_name}
+                      </div>
+                      <div style={{ fontSize: "1em", fontWeight: "bold" }}>
+                        Roll No: {student.roll_no}
+                      </div>
+                      <div style={{ fontSize: "1em", fontWeight: "bold" }}>
+                        Standard: {student.standard}
+                      </div>
+                      {/* Add more details as needed */}
                     </div>
-                    <div style={{ fontSize: "1em", fontWeight: "bold" }}>
-                      Student Name: {student.student_name}
+                    <div>
+                      <button>
+                        <Link
+                          to={`/student/${id}/edit`}
+                          style={{ textDecoration: "none", color: "white" }}
+                        >
+                          Insert
+                        </Link>
+                      </button>
                     </div>
-                    <div style={{ fontSize: "1em", fontWeight: "bold" }}>
-                      Roll No: {student.roll_no}
-                    </div>
-                    <div style={{ fontSize: "1em", fontWeight: "bold" }}>
-                      Standard: {student.standard}
-                    </div>
-                    {/* Add more details as needed */}
                   </div>
                   <div>
                     <ChartPage
@@ -116,7 +135,7 @@ const StudentData = () => {
                       name={"Emotional Score"}
                     />
                   </div>
-                </>
+                </div>
               )
             )}
           </div>
