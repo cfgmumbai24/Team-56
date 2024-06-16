@@ -18,6 +18,9 @@ The GramHunar web application is designed to assist educational leaders in monit
 - **Social-Emotional Assessment**: Based on a 10-question survey focusing on concentration and social behavior, providing a score that aids in tracking social-emotional development.
 - **Data-Driven Insights**: Visual representations of data help teachers make informed decisions and provide targeted support to students.
 
+### How to start
+ To start the frontend, clone the repo then install the node modules in npm i and to run the backend clone the repo, initialize the node modules by npm i and then run the backend using npm run dev 
+
 ## GoatMitra Web Application
 
 The GoatMitra web application supports the livelihood program by providing a platform for managing data related to goat health and ownership.
