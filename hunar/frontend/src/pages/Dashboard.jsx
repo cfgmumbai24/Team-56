@@ -8,6 +8,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 import "./Dashboard.css";
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${theme.breakpoints.down("sm")}`]: {
@@ -169,6 +170,9 @@ const Dashboard = () => {
                     <StyledTableCell align="center" className="tableHead">
                       Standard
                     </StyledTableCell>
+                    <StyledTableCell align="center" className="tableHead">
+                      Link
+                    </StyledTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -185,6 +189,9 @@ const Dashboard = () => {
                       </StyledTableCell>
                       <StyledTableCell align="center">
                         {student.standard}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Link to={`/student/${student.student_id}`}>Goto </Link>
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}

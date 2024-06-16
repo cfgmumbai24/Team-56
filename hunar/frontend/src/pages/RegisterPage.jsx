@@ -64,7 +64,7 @@ export default function RegisterPage() {
         <form
           className="register-form"
           onSubmit={register}
-          style={{ border: "1px solid black" }}
+          style={{ border: "1px solid grey" }}
         >
           <h2 className="register_heading">Register</h2>
           {error && <p className="error">{error}</p>}
@@ -74,7 +74,7 @@ export default function RegisterPage() {
               type="text"
               value={teacherId}
               onChange={(e) => setTeacherId(e.target.value)}
-              placeholder="teacher id"
+              placeholder="Teacher ID"
               required
             />
           </div>
@@ -83,7 +83,7 @@ export default function RegisterPage() {
               type="text"
               value={teacherName}
               onChange={(e) => setTeacherName(e.target.value)}
-              placeholder="Teacher name "
+              placeholder="Teacher Name "
               required
             />
           </div>
