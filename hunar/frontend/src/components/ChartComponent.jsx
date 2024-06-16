@@ -23,7 +23,7 @@ ChartJS.register(
 
 const ChartComponent = ({ chartData }) => {
   return (
-    <div className="graph-container">
+    <div>
       <Line
         data={chartData}
         options={{

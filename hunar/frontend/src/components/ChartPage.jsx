@@ -12,10 +12,10 @@ const ChartPage = ({ studentMarks, name }) => {
       "June",
       "July",
       "August",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec",
+      "September",
+      "October",
+      "November",
+      "December",
     ],
     datasets: [
       {
@@ -23,15 +23,16 @@ const ChartPage = ({ studentMarks, name }) => {
         data: studentMarks,
         backgroundColor: "rgba(75, 192, 192, 0.2)",
         borderColor: "rgba(75, 192, 192, 1)",
-        borderWidth: 1,
+        borderWidth: 3, // Thicker lines
+        lineTension: 0.4, // Smoothen the lines
       },
     ],
   };
 
   return (
-    <div className="chart-page">
+    <div>
       <h1>{name}</h1>
-      <ChartComponent chartData={chartData}  />
+      <ChartComponent chartData={chartData} />
     </div>
   );
 };
