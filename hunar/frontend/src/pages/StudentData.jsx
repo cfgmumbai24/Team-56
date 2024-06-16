@@ -139,23 +139,55 @@ const StudentData = () => {
                       </button>
                     </div>
                   </div>
-                  <div>
-                    <ChartPage
-                      studentMarks={lit_score}
-                      name={"Literacy Score"}
-                    />
-                  </div>
-                  <div>
-                    <ChartPage
-                      studentMarks={num_score}
-                      name={"Numeracy Score"}
-                    />
-                  </div>
-                  <div>
-                    <ChartPage
-                      studentMarks={emot_score}
-                      name={"Emotional Score"}
-                    />
+
+                  <div
+                    style={{
+                      padding: "2em",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <table
+                      style={{ border: "0px ", width: "100%" }}
+                      align="center"
+                      cellPadding={0}
+                      cellMargin={0}
+                    >
+                      <tr>
+                        <td width={"50%"}>
+                          <div className="graphChild">
+                            <ChartPage
+                              studentMarks={lit_score}
+                              name={"Literacy Score"}
+                            />
+                          </div>
+                        </td>
+                        <td width={"50%"}>
+                          {" "}
+                          <div className="graphChild">
+                            <ChartPage
+                              studentMarks={num_score}
+                              name={"Numeracy Score"}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td
+                          colSpan={2}
+                          align="center"
+                          width={"50%"}
+                          height={"50%"}
+                        >
+                          <div style={{ margin: "2em", width: "50%" }}>
+                            <ChartPage
+                              studentMarks={emot_score}
+                              name={"Emotional Score"}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
                   </div>
                 </div>
               )
