@@ -6,19 +6,20 @@ import { data } from "./data"; // Assuming you will use a database or API instea
 import RadioButtonGroup from "./Radiobutton";
 import "./EditStudentData.css";
 const questions = {
-  Feelings: [
-    "I feel happy when I come to school.",
-    "I feel safe in my classroom.",
-    "I feel sad when my friends are not nice to me.",
-    "I feel good about myself.",
-    "I feel worried sometimes.",
+
+  Concentration: [
+    "How attentive is the child in the lectures?",
+    "How often does the child get distracted by external forces?",
+    "How often does the child use his phone (if at all) during the lectures?",
+    "To what extent can the child retain the clasroom lectures in memory?",
+    "How often does the child clarify occurring doubts?"
   ],
-  Relationships: [
-    "I have friends to play with at school.",
-    "I like to share with my classmates.",
-    "I like to help others.",
-    "My friends are kind to me.",
-    "I have someone to talk to when I am sad.",
+  Reflectivity_and_other_factors: [
+    "How frequently does the child respond to questions asked in the class?",
+    "How well does the child respond to pressure?",
+    "How well does the child respond to the teacher's instructions?",
+    "How often does the child show interest in the subject matter?",
+    "Is there an influence of family problems on the child's behaviour?"
   ],
 };
 
