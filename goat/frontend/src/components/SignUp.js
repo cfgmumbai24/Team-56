@@ -82,7 +82,7 @@ const SignUp = ({ onSignUp }) => {
 
 const styles = {
   container: {
-    width: '300px',
+    width: '400px',
     margin: '50px auto',
     padding: '20px',
     backgroundColor: 'white',
