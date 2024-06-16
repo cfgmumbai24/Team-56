@@ -45,6 +45,12 @@
   color: red;
 }
 
+.graphChild {
+  width: "50%";
+  margin: "2em";
+  float: "left";
+  padding: "0";
+}
 .no-students {
   text-align: center;
   font-style: italic;
