@@ -57,9 +57,7 @@ function App() {
         <Route path="/add-goat-details" element={<AddGoatDetails />} />
         <Route path="/view-goat-details" element={<ViewGoatDetails />} />
       </Routes>
-      <footer>
-        <p>&copy; 2024 GramUrja Foundation</p>
-      </footer>
+
     </Router>
   );
 }

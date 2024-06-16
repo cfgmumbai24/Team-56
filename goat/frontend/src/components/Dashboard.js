@@ -25,10 +25,9 @@ const styles = {
     fontFamily: 'Arial, sans-serif',
     textAlign: 'center',
     minHeight: '100vh', // Ensure the container takes full height
-    position: 'relative', // To position the footer correctly
-    paddingBottom: '40px', // Add padding to avoid overlap with footer
+
     boxSizing: 'border-box',
-    
+
   },
   header: {
     backgroundColor: '#7B1F32',
