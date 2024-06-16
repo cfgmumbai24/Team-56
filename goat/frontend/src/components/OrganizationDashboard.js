@@ -13,15 +13,15 @@ const OrganizationDashboard = ({ username, onLogout }) => {
   useEffect(() => {
     // Fetch data from backend API and update state
     // Example API call, replace with actual API endpoint
-    fetch('/api/goat-data')
+    fetch('http://localhost:5000/api/goats/allocation-status')
       .then((response) => response.json())
       .then((data) => {
         setData({
-          totalGoats: data.totalGoats,
-          goatsWithOwners: data.goatsWithOwners,
-          homelessGoats: data.homelessGoats,
-          parentGoats: data.parentGoats,
-          childrenGoats: data.childrenGoats,
+          totalGoats: data.unallocated + data.allocated,
+          goatsWithOwners: data.allocated,
+          homelessGoats: data.unallocated,
+          parentGoats: 1,
+          childrenGoats: 1,
         });
       })
       .catch((error) => console.error('Error fetching goat data:', error));
