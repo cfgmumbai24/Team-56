@@ -49,9 +49,12 @@ export default function LoginPage() {
 
   return (
     <>
-      <Layout />
       <div className="login-container">
-        <form className="login-form" onSubmit={login}>
+        <form
+          className="login-form"
+          onSubmit={login}
+          style={{ border: "1px solid black" }}
+        >
           <div className="form-group">
             <h2 className="login_heading">Login</h2>
             <input
@@ -73,10 +76,10 @@ export default function LoginPage() {
           </div>
           <button type="submit">Login</button>
           {error && <p className="error">{error}</p>}
+          <div>
+            Not registered ? <Link to="/register">Register </Link>
+          </div>
         </form>
-        <div>
-          Not registered ? <Link href="/register">Login </Link>
-        </div>
       </div>
     </>
   );

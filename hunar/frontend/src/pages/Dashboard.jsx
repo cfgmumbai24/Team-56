@@ -1,10 +1,34 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import "./Dashboard.css";
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+  [`&.${theme.breakpoints.down("sm")}`]: {
+    fontSize: 14,
+  },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 const Dashboard = () => {
   const [username, setUsername] = useState("");
-  const [teacherData, setTeacherData] = useState(null); // Teacher data is an object or null (or array)
-  const [students, setStudents] = useState([]); // Array to store students
+  const [teacherData, setTeacherData] = useState(null);
+  const [students, setStudents] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -22,7 +46,13 @@ const Dashboard = () => {
           const response = await axios.get(
             `http://localhost:5000/api/teacher/${username}`
           );
-          setTeacherData(response.data); // Set teacher data (object or array)
+          setTeacherData(response.data);
+          localStorage.setItem(
+            "teacherId",
+            Array.isArray(teacherData)
+              ? teacherData[0].teacher_id
+              : teacherData?.teacher_id
+          );
         } catch (error) {
           console.error("Error fetching teacher data: ", error);
           setError("Error fetching data");
@@ -33,7 +63,6 @@ const Dashboard = () => {
     }
   }, [username]);
 
-  // Fetch students on separate effect (optional optimization)
   useEffect(() => {
     if (teacherData) {
       const fetchStudents = async () => {
@@ -42,11 +71,11 @@ const Dashboard = () => {
             `http://localhost:5000/api/teacher/${
               Array.isArray(teacherData)
                 ? teacherData[0].teacher_id
-                : teacherData?.teacher_id // Handle both object and array cases
+                : teacherData?.teacher_id
             }/underStudents`
           );
-          setStudents(response.data); // Update students array with response data (which is the array of objects)
-          setError(""); // Clear previous error (optional)
+          setStudents(response.data);
+          setError("");
         } catch (error) {
           console.error("Error fetching students: ", error);
           setError("Error fetching students");
@@ -58,27 +87,55 @@ const Dashboard = () => {
   }, [teacherData]);
 
   return (
-    <div>
-      <h1>Dashboard of {username}</h1>
+    <div
+      style={{
+        height: "100dvh",
+
+        margin: "0",
+        padding: "0",
+      }}
+    >
+      <div
+        style={{
+          backgroundColor: "#0277BD",
+          fontSize: "2em",
+          color: "white",
+          fontWeight: "bold",
+          padding: "1em",
+        }}
+      >
+        Dashboard of {username}
+      </div>
       {error && <p>{error}</p>}
-      {teacherData ? ( // Check for teacher data (object or array)
-        <div>
-          <h2>Data from API:</h2>
-          {Array.isArray(teacherData) ? ( // Check if teacherData is an array
-            teacherData.map(
-              (
-                teacher // Iterate over teacher objects
-              ) => (
-                <div key={teacher.teacher_id}>
-                  <div>Teacher ID: {teacher.teacher_id}</div>
-                  <div>Username: {teacher.username}</div>
-                  <div>Teacher Name: {teacher.teacher_name}</div>
-                  <div>Address: {teacher.address}</div>
-                  <div>Age: {teacher.age}</div>
-                  <div>Standard: {teacher.standard}</div>
+      {teacherData ? (
+        <div style={{ margin: "1em" }}>
+          <h2>Logged in teacher's details : </h2>
+          {Array.isArray(teacherData) ? (
+            teacherData.map((teacher) => (
+              <div key={teacher.teacher_id}>
+                <div>
+                  <strong>Teacher ID: </strong> {teacher.teacher_id}
                 </div>
-              )
-            )
+                <div>
+                  <strong> Username: </strong>
+                  {teacher.username}
+                </div>
+                <div>
+                  <strong> Teacher Name: </strong>
+                  {teacher.teacher_name}
+                </div>
+                <div>
+                  <strong> Address:</strong> {teacher.address}
+                </div>
+                <div>
+                  <strong> Age: </strong>
+                  {teacher.age}
+                </div>
+                <div>
+                  <strong> Standard:</strong> {teacher.standard}
+                </div>
+              </div>
+            ))
           ) : (
             <div>
               <div>Teacher ID: {teacherData.teacher_id}</div>
@@ -90,37 +147,50 @@ const Dashboard = () => {
             </div>
           )}
           <h2>Students:</h2>
-          {students.length > 0 ? ( // Check if there are students
-            <table>
-              <thead>
-                <tr>
-                  <th>Student ID</th>
-                  <th>Student Name</th>
-                  <th>Roll No</th>
-                  <th>Standard</th>
-                  <th>Student Profile</th>
-                </tr>
-              </thead>
-              <tbody>
-                {students.map(
-                  (
-                    student // Iterate over students array (which holds objects)
-                  ) => (
-                    <tr key={student.student_id}>
-                      <td>{student.student_id}</td>
-                      <td>{student.student_name}</td>
-                      <td>{student.roll_no}</td>
-                      <td>{student.standard}</td>
-                      <td>
-                        <a href={`/student/${student.student_id}`}>
-                          View Profile
-                        </a>
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+          {students.length > 0 ? (
+            <TableContainer
+              component={Paper}
+              style={{
+                border: "1px solid #0277BD",
+              }}
+            >
+              <Table sx={{ minWidth: 700 }} aria-label="customized table">
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell align="center" className="tableHead">
+                      Student ID
+                    </StyledTableCell>
+                    <StyledTableCell align="center" className="tableHead">
+                      Student Name
+                    </StyledTableCell>
+                    <StyledTableCell align="center" className="tableHead">
+                      Roll No
+                    </StyledTableCell>
+                    <StyledTableCell align="center" className="tableHead">
+                      Standard
+                    </StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {students.map((student) => (
+                    <StyledTableRow key={student.student_id}>
+                      <StyledTableCell align="center">
+                        {student.student_id}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {student.student_name}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {student.roll_no}
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        {student.standard}
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
           ) : (
             <p>No students assigned yet.</p>
           )}

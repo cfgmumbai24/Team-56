@@ -60,9 +60,12 @@ export default function RegisterPage() {
   //   teacher_id, username, teacher_name, address, age, standard
   return (
     <>
-      <Layout />
       <div className="register-container">
-        <form className="register-form" onSubmit={register}>
+        <form
+          className="register-form"
+          onSubmit={register}
+          style={{ border: "1px solid black" }}
+        >
           <h2 className="register_heading">Register</h2>
           {error && <p className="error">{error}</p>}
           {success && <p className="success">{success}</p>}
@@ -130,10 +133,10 @@ export default function RegisterPage() {
             />
           </div>
           <button type="submit">Register</button>
+          <div>
+            Already a user ? <Link to="/login">Login </Link>
+          </div>
         </form>
-        <div>
-          Already a user ? <Link href="/login">Login </Link>
-        </div>
       </div>
     </>
   );
