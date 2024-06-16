@@ -20,8 +20,8 @@ const OrganizationDashboard = ({ username, onLogout }) => {
           totalGoats: data.unallocated + data.allocated,
           goatsWithOwners: data.allocated,
           homelessGoats: data.unallocated,
-          parentGoats: 1,
-          childrenGoats: 1,
+          parentGoats: 13,
+          childrenGoats: 7,
         });
       })
       .catch((error) => console.error('Error fetching goat data:', error));
