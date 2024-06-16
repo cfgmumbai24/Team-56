@@ -92,7 +92,7 @@ router.delete("/:id", (req, res) => {
 router.get("/:teacherId/underStudents", (req, res) => {
   const { teacherId } = req.params;
   db.query(
-    "SELECT student.student_id ,student.student_name, student.roll_no, student.standard FROM student INNER JOIN scores ON student.student_id = scores.student_id WHERE scores.teacher_id = ?",
+    "SELECT distinct  student.student_id ,student.student_name, student.roll_no, student.standard FROM student INNER JOIN scores ON student.student_id = scores.student_id WHERE scores.teacher_id = ?",
     [teacherId],
     (err, results) => {
       if (err) {

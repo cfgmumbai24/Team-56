@@ -277,12 +277,6 @@ const Dashboard = () => {
           justifyContent: "center",
         }}
       >
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-
         <table
           style={{ border: "0px ", width: "100%" }}
           align="center"
