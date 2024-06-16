@@ -92,7 +92,7 @@ const EditStudentData = () => {
 
     try {
       const response = await axios.post(
-        "https://localhost:5000/api/score",
+        "http://localhost:5000/api/score",
         formData
       );
       console.log("Form Data:", formData);
