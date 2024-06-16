@@ -150,7 +150,7 @@ const Dashboard = () => {
       <div
         style={{
           height: "100dvh",
-
+          marginBottom: "2em",
           margin: "0",
           padding: "0",
         }}
@@ -277,6 +277,12 @@ const Dashboard = () => {
           justifyContent: "center",
         }}
       >
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+
         <table
           style={{ border: "0px ", width: "100%" }}
           align="center"

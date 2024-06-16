@@ -3,12 +3,15 @@ const router = express.Router();
 const db = require("../db");
 
 router.get("/", (req, res) => {
-  db.query("SELECT * FROM teacher_data", (err, results) => {
-    if (err) {
-      return res.status(500).send(err);
+  db.query(
+    "SELECT DISTINCT teacher_id, username, teacher_name, address, age, standard FROM teacher_data ORDER BY teacher_id",
+    (err, results) => {
+      if (err) {
+        return res.status(500).send(err);
+      }
+      res.json(results);
     }
-    res.json(results);
-  });
+  );
 });
 
 // router.get("/:id", (req, res) => {
