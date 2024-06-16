@@ -74,10 +74,12 @@ const styles = {
     color: '#333',
   },
   buttonGroup: {
+    display: 'flex',
+    justifyContent: 'space-between',
     marginBottom: '20px',
   },
   button: {
-    width: '140px',
+    flex: '1',
     padding: '10px',
     backgroundColor: '#ccc',
     color: 'white',
@@ -85,9 +87,10 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     marginRight: '10px',
+    textAlign: 'center',
   },
   selectedButton: {
-    width: '140px',
+    flex: '1',
     padding: '10px',
     backgroundColor: '#7B1F32', // Maroon color
     color: 'white',
@@ -95,6 +98,7 @@ const styles = {
     borderRadius: '4px',
     cursor: 'pointer',
     marginRight: '10px',
+    textAlign: 'center',
   },
   signUpLink: {
     color: '#7B1F32',
