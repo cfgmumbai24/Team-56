@@ -229,32 +229,35 @@ const AddGoatDetails = () => {
           <div style={styles.formGroup}>
   <label style={styles.label}>Vaccinations:</label>
   <div style={styles.checkboxGroup}>
-    <div style={styles.checkboxLabel}>
+  <div style={{...styles.checkboxLabel,maxWidth:"40%"}}>
+    <label htmlFor="vacA" style={{ marginLeft: '10px' }}>VaccinationA</label>
       <input
         type="checkbox"
         id="vacA"
         checked={vacA}
         onChange={() => setVacA(!vacA)}
       />
-      <label htmlFor="vacA" style={{ marginLeft: '10px' }}>VaccinationA</label>
+      
     </div>
-    <div style={styles.checkboxLabel}>
+    <div style={{...styles.checkboxLabel,maxWidth:"40%"}}>
+    <label htmlFor="vacB" style={{ marginLeft: '10px' }}>VaccinationB</label>
       <input
         type="checkbox"
         id="vacB"
         checked={vacB}
         onChange={() => setVacB(!vacB)}
       />
-      <label htmlFor="vacB" style={{ marginLeft: '10px' }}>VaccinationB</label>
+      
     </div>
-    <div style={styles.checkboxLabel}>
+    <div style={{...styles.checkboxLabel,maxWidth:"40%"}}>
+    <label htmlFor="vacC" style={{ marginLeft: '10px' }}>VaccinationC</label>
       <input
         type="checkbox"
         id="vacC"
         checked={vacC}
         onChange={() => setVacC(!vacC)}
       />
-      <label htmlFor="vacC" style={{ marginLeft: '10px' }}>VaccinationC</label>
+     
     </div>
   </div>
 </div>
