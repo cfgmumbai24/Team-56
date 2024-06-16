@@ -58,6 +58,15 @@ const StudentData = () => {
 
     fetchData();
     fetchStudentMarks();
+    const storedStudentData = localStorage.getItem("studentData");
+    if (storedStudentData) {
+      try {
+        const parsedData = JSON.parse(storedStudentData);
+        setStudentData(parsedData);
+      } catch (error) {
+        console.error("Error parsing stored student data:", error);
+      }
+    }
   }, [id, studentMarks]);
 
   // http://localhost:5000/api/score/1
@@ -107,7 +116,20 @@ const StudentData = () => {
                       {/* Add more details as needed */}
                     </div>
                     <div>
-                      <button>
+                      <button
+                        onClick={() => {
+                          // localStorage.setItem(
+                          //   "student_id",
+                          //   student.student_id
+                          // );
+                          // localStorage.setItem(
+                          //   "student_name",
+                          //   student.student_name
+                          // );
+                          // localStorage.setItem("roll_no", student.roll_no);
+                          // localStorage.setItem("standard", student.standard);
+                        }}
+                      >
                         <Link
                           to={`/student/${id}/edit`}
                           style={{ textDecoration: "none", color: "white" }}

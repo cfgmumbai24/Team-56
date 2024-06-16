@@ -45,16 +45,20 @@ const EditStudentData = () => {
         const response = await axios.get(
           `http://localhost:5000/api/student/${id}`
         );
-        setStudentData(response.data); // Assuming the response is a single student object
+        setStudentData(response.data); // Directly set the data
+        console.log("Student response data:", response.data);
+        console.log("Student data:", studentData); // Now contains fetched data
+        console.log("Student name:", studentData.name); // Access data after setting
         setError("");
-        console.log("Student data : ", studentData);
       } catch (error) {
         console.error("Error fetching student data:", error);
         setError("Error fetching student data");
       }
     };
+
     fetchData();
   }, [id]);
+
   useEffect(() => {
     const user = data.find((user) => user.id === parseInt(id));
     if (user) {
@@ -83,7 +87,7 @@ const EditStudentData = () => {
       date_of_assign: dateofTest,
       literacy_score: parseFloat(literacyTestScore),
       numeracy_score: parseFloat(numericalAbilityTestScore),
-      socio_emotional_score: sum / 25,
+      socio_emotional_score: sum / 25.0,
     };
 
     try {
@@ -145,8 +149,7 @@ const EditStudentData = () => {
             <input
               type="text"
               id="name"
-              value={studentData ? studentData.name : ""}
-              disabled={studentData ? true : false}
+              value={name}
               onChange={handleNameChange}
               className="form-input"
               readOnly
@@ -157,8 +160,7 @@ const EditStudentData = () => {
               Standard
             </label>
             <select
-              value={studentData ? studentData.standard : ""}
-              disabled={studentData ? true : false}
+              value={standard}
               onChange={handleStandardChange}
               className="form-select"
               required

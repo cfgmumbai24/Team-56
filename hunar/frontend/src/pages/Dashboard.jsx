@@ -48,12 +48,6 @@ const Dashboard = () => {
             `http://localhost:5000/api/teacher/${username}`
           );
           setTeacherData(response.data);
-          localStorage.setItem(
-            "teacherId",
-            Array.isArray(teacherData)
-              ? teacherData[0].teacher_id
-              : teacherData?.teacher_id
-          );
         } catch (error) {
           console.error("Error fetching teacher data: ", error);
           setError("Error fetching data");
@@ -61,6 +55,7 @@ const Dashboard = () => {
       };
 
       fetchData();
+      console.log("teacherData : ", teacherData);
     }
   }, [username]);
 
@@ -74,6 +69,12 @@ const Dashboard = () => {
                 ? teacherData[0].teacher_id
                 : teacherData?.teacher_id
             }/underStudents`
+          );
+          localStorage.setItem(
+            "teacherId",
+            Array.isArray(teacherData)
+              ? teacherData[0].teacher_id
+              : teacherData?.teacher_id
           );
           setStudents(response.data);
           setError("");
@@ -141,7 +142,7 @@ const Dashboard = () => {
             <div>
               <div>Teacher ID: {teacherData.teacher_id}</div>
               <div>Username: {teacherData.username}</div>
-              <div>Teacher Name: {teacherData.teacher_id}</div>
+              <div>Teacher Name: {teacherData.teacher_name}</div>
               <div>Address: {teacherData.address}</div>
               <div>Age: {teacherData.age}</div>
               <div>Standard: {teacherData.standard}</div>
