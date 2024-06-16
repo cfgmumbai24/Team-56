@@ -6,13 +6,12 @@ const Dashboard = ({ username }) => {
     <div style={styles.container}>
       <header style={styles.header}>
         <h1 style={styles.welcome}>Welcome, {username}!</h1>
+      </header>
+      <main style={styles.mainContent}>
         <div style={styles.navBar}>
           <Link to="/add-goat-details" style={styles.navLinkButton}>Add Monthly Goat Details</Link>
           <Link to="/view-goat-details" style={styles.navLinkButton}>View Goat Details</Link>
         </div>
-      </header>
-      <main style={styles.mainContent}>
-        {/* Additional content can be added here */}
       </main>
       <footer style={styles.footer}>
         <p>&copy; 2024 GramUrja Foundation</p>
@@ -25,6 +24,11 @@ const styles = {
   container: {
     fontFamily: 'Arial, sans-serif',
     textAlign: 'center',
+    minHeight: '100vh', // Ensure the container takes full height
+    position: 'relative', // To position the footer correctly
+    paddingBottom: '40px', // Add padding to avoid overlap with footer
+    boxSizing: 'border-box',
+    
   },
   header: {
     backgroundColor: '#7B1F32',
@@ -37,30 +41,36 @@ const styles = {
     width: '100%',
     zIndex: 1000,
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingLeft: '20px',
-    paddingRight: '20px',
   },
   welcome: {
     margin: '10px 0',
   },
+  mainContent: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 'calc(100vh - 160px)', // Adjust to account for fixed header and footer
+    marginTop: '60px', // Adjust to account for fixed header
+    color: '#FFFFFF',
+  },
   navBar: {
     display: 'flex',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   navLinkButton: {
     color: 'white',
     textDecoration: 'none',
-    padding: '10px 20px',
-    backgroundColor: '#333',
+    padding: '20px 40px', // Make buttons equal and sizable
+    backgroundColor: '#7B1F32', // Remove grey background
     borderRadius: '5px',
-    marginLeft: '10px',
+    margin: '0 10px',
     transition: 'background-color 0.3s ease',
-  },
-  mainContent: {
-    marginTop: '100px', // Adjust to account for fixed header
-    padding: '20px',
+    textAlign: 'center',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   footer: {
     position: 'fixed',
@@ -70,6 +80,7 @@ const styles = {
     backgroundColor: '#333',
     color: 'white',
     padding: '10px 0',
+    textAlign: 'center',
   },
 };
 
